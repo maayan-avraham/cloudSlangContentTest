@@ -12,6 +12,8 @@
 #! @input port: optional - port number for running the command - Default: '22'
 #! @input command: command to execute
 #! @input pty: optional - whether to use PTY - Valid: true, false - Default: false
+#!             When pty is true, the desired command must be appended with an exit command in order to close the channel,
+#!             e.g. "echo something\n exit\n", otherwise the operation will time out
 #! @input username: username to connect as
 #! @input password: optional - password of user
 #! @input arguments: optional - arguments to pass to the command
@@ -47,6 +49,7 @@ namespace: io.cloudslang.base.ssh
 imports:
   linux: io.cloudslang.base.os.linux
   utils: io.cloudslang.base.utils
+  ssh: io.cloudslang.base.ssh
 
 flow:
     name: ssh_flow
@@ -65,6 +68,7 @@ flow:
           required: false
       - privateKeyFile:
           default: ${get("private_key_file", "")}
+          required: false
           private: true
       - timeout: '90000'
       - character_set:
@@ -81,6 +85,7 @@ flow:
           required: false
       - agentForwarding:
           default: ${get("agent_forwarding", "")}
+          required: false
           private: true
       - smart_recovery: True
       - retries: 5
@@ -99,6 +104,7 @@ flow:
               - timeout
               - close_session
               - agent_forwarding
+
           publish:
             - return_result
             - return_code
@@ -112,7 +118,7 @@ flow:
 
       - ssh_command:
           do:
-            ssh_command:
+            ssh.ssh_command:
               - host
               - port
               - username

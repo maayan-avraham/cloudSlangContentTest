@@ -50,6 +50,7 @@ operation:
         required: false
     - privateKeyFile:
         default: ${get("private_key_file", "")}
+        required: false
         private: true
     - command:
         default: ':'
@@ -61,7 +62,9 @@ operation:
     - characterSet:
         default: ${get("character_set", "UTF-8")}
         private: true
-    - pty: 'false'
+    - pty:
+        default: 'false'
+        private: true
     - timeout: '30000000'
     - close_session:
         required: false
@@ -72,9 +75,10 @@ operation:
         required: false
     - agentForwarding:
         default: ${get("agent_forwarding", "")}
+        required: false
         private: true
   java_action:
-    gav: 'io.cloudslang.content:score-ssh:0.0.32'
+    gav: 'io.cloudslang.content:cs-ssh:0.0.33'
     class_name: io.cloudslang.content.ssh.actions.SSHShellCommandAction
     method_name: runSshShellCommand
   outputs:

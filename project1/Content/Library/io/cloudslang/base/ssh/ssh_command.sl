@@ -12,6 +12,8 @@
 #! @input port: optional - port number for running the command - Default: '22'
 #! @input command: command to execute
 #! @input pty: optional - whether to use PTY - Valid: true, false - Default: false
+#!             When pty is true, the desired command must be appended with an exit command in order to close the channel,
+#!             e.g. "echo something\n exit\n", otherwise the operation will time out
 #! @input username: username to connect as
 #! @input password: optional - password of user
 #! @input arguments: optional - arguments to pass to the command
@@ -57,6 +59,7 @@ operation:
           required: false
       - privateKeyFile:
           default: ${get("private_key_file", "")}
+          required: false
           private: true
       - timeout: '90000'
       - character_set:
@@ -73,9 +76,10 @@ operation:
           required: false
       - agentForwarding:
           default: ${get("agent_forwarding", "")}
+          required: false
           private: true
     java_action:
-      gav: 'io.cloudslang.content:score-ssh:0.0.32'
+      gav: 'io.cloudslang.content:cs-ssh:0.0.33'
       class_name: io.cloudslang.content.ssh.actions.SSHShellCommandAction
       method_name: runSshShellCommand
     outputs:
