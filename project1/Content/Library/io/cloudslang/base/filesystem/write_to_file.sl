@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Add text to a file.
+#! @description: Writes text to a file.
 #! @input file_path: path of the file to write to
 #! @input text: text to write to the file
 #! @output message: error message if error occurred
@@ -15,17 +15,17 @@
 #! @result FAILURE: otherwise
 #!!#
 ####################################################
-namespace: io.cloudslang.base.files
+namespace: io.cloudslang.base.filesystem
 
 operation:
-  name: add_text_to_file
+  name: write_to_file
   inputs:
     - file_path
     - text
   python_action:
     script: |
       try:
-        f = open(file_path, 'a')
+        f = open(file_path, 'w')
         f.write(text)
         f.close()
         message = 'writing done successfully'

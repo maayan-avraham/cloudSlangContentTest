@@ -7,37 +7,31 @@
 #
 ####################################################
 #!!
-#! @description: Unzips an archive.
-#! @input archive_path: path to archive to be unziped (including '.zip')
-#! @input output_folder: path of folder to place unzipped files from archive
+#! @description: Moves a file or folder.
+#! @input source: path of source file or folder to be moved
+#! @input destination: path to move file or folder to
 #! @output message: error message in case of error
-#! @result SUCCESS: archive was successfully unzipped
-#! @result FAILURE: archive was not unzipped due to error
+#! @result SUCCESS: file or folder was successfully moved
+#! @result FAILURE: file or folder was not moved due to an error
 #!!#
 ####################################################
-namespace: io.cloudslang.base.files
+namespace: io.cloudslang.base.filesystem
 
 operation:
-  name: unzip_archive
+  name: move
+  
   inputs:
-    - archive_path
-    - output_folder
+    - source
+    - destination
 
   python_action:
     script: |
-        import zipfile
-        fh = None
+        import shutil, sys
         try:
-          fh = open(archive_path, 'rb')
-          z = zipfile.ZipFile(fh)
-          for name in z.namelist():
-              z.extract(name, output_folder)
-          fh.close()
-          message = 'unzipping done successfully'
+          shutil.move(source,destination)
+          message = ("moving done successfully")
           result = True
         except Exception as e:
-          if fh != None:
-            fh.close()
           message = e
           result = False
 

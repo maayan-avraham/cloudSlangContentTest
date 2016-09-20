@@ -13,7 +13,7 @@
 #!!#
 ####################################################
 
-namespace: io.cloudslang.base.utils
+namespace: io.cloudslang.base.http
 
 operation:
   name: url_encoder

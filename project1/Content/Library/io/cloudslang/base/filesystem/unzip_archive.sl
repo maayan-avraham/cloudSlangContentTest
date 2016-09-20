@@ -7,31 +7,37 @@
 #
 ####################################################
 #!!
-#! @description: Creates a zip archive
-#! @input archive_name: name of archive to be created (without the .zip extension)
-#! @input folder_path: path to folder to be zipped (zipped file will be created in this folder)
+#! @description: Unzips an archive.
+#! @input archive_path: path to archive to be unziped (including '.zip')
+#! @input output_folder: path of folder to place unzipped files from archive
 #! @output message: error message in case of error
-#! @result SUCCESS: archive was successfully created
-#! @result FAILURE: archive was not created due to error
+#! @result SUCCESS: archive was successfully unzipped
+#! @result FAILURE: archive was not unzipped due to error
 #!!#
 ####################################################
-namespace: io.cloudslang.base.files
+namespace: io.cloudslang.base.filesystem
 
 operation:
-  name: zip_folder
+  name: unzip_archive
   inputs:
-    - archive_name
-    - folder_path
+    - archive_path
+    - output_folder
 
   python_action:
     script: |
-        import sys, os, shutil
+        import zipfile
+        fh = None
         try:
-          shutil.make_archive(archive_name, "zip", folder_path)
-          filename = archive_name + '.zip'
-          shutil.move(filename, folder_path)
+          fh = open(archive_path, 'rb')
+          z = zipfile.ZipFile(fh)
+          for name in z.namelist():
+              z.extract(name, output_folder)
+          fh.close()
+          message = 'unzipping done successfully'
           result = True
         except Exception as e:
+          if fh != None:
+            fh.close()
           message = e
           result = False
 

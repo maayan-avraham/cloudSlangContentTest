@@ -7,29 +7,29 @@
 #
 ####################################################
 #!!
-#! @description: Moves a file or folder.
-#! @input source: path of source file or folder to be moved
-#! @input destination: path to move file or folder to
+#! @description: Creates a zip archive
+#! @input archive_name: name of archive to be created (without the .zip extension)
+#! @input folder_path: path to folder to be zipped (zipped file will be created in this folder)
 #! @output message: error message in case of error
-#! @result SUCCESS: file or folder was successfully moved
-#! @result FAILURE: file or folder was not moved due to an error
+#! @result SUCCESS: archive was successfully created
+#! @result FAILURE: archive was not created due to error
 #!!#
 ####################################################
-namespace: io.cloudslang.base.files
+namespace: io.cloudslang.base.filesystem
 
 operation:
-  name: move
-  
+  name: zip_folder
   inputs:
-    - source
-    - destination
+    - archive_name
+    - folder_path
 
   python_action:
     script: |
-        import shutil, sys
+        import sys, os, shutil
         try:
-          shutil.move(source,destination)
-          message = ("moving done successfully")
+          shutil.make_archive(archive_name, "zip", folder_path)
+          filename = archive_name + '.zip'
+          shutil.move(filename, folder_path)
           result = True
         except Exception as e:
           message = e

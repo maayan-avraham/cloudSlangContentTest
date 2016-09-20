@@ -24,7 +24,7 @@ namespace: io.cloudslang.marathon
 imports:
   marathon: io.cloudslang.marathon
   utils: io.cloudslang.base.utils
-  network: io.cloudslang.base.network
+  network: io.cloudslang.base.http
   print: io.cloudslang.base.print
 flow:
   name: setup_marathon_on_different_hosts
@@ -41,8 +41,8 @@ flow:
           utils.is_true:
             - bool_value: ${is_core_os}
         navigate:
-          - SUCCESS: setup_marathon_core_os
-          - FAILURE: setup_marathon_docker_host
+          - 'TRUE': setup_marathon_core_os
+          - 'FALSE': setup_marathon_docker_host
 
     - setup_marathon_core_os:
         do:

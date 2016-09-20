@@ -15,7 +15,7 @@
 #! @result FAILURE: something went wrong
 #!!#
 ###################################################################
-namespace: io.cloudslang.base.utils
+namespace: io.cloudslang.base.flow_control
 
 operation:
   name: sleep

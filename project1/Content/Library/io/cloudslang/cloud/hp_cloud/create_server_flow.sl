@@ -105,7 +105,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "server,id"
         publish:
-          - server_id: ${value}
+          - server_id: ${return_result}
 
     - print_new_server_id:
         do:
@@ -139,8 +139,8 @@ flow:
           base_utils.is_true:
             - bool_value: ${assign_floating}
         navigate:
-          - SUCCESS: allocate_new_ip
-          - FAILURE: done
+          - 'TRUE': allocate_new_ip
+          - 'FALSE': done
 
     - allocate_new_ip:
         do:

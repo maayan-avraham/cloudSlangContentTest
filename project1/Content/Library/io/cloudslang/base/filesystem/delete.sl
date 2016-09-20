@@ -14,7 +14,7 @@
 #! @result FAILURE: file or folder was not deleted due to error
 #!!#
 ####################################################
-namespace: io.cloudslang.base.files
+namespace: io.cloudslang.base.filesystem
 
 operation:
   name: delete

@@ -26,7 +26,7 @@
 #! @result FAILURE: folder was not created due to an error
 #!!#
 ############################################################################################################
-namespace: io.cloudslang.base.files
+namespace: io.cloudslang.base.filesystem
 
 operation:
   name: create_folder

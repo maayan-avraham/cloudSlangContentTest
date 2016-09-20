@@ -15,7 +15,7 @@
 #! @result FAILURE: otherwise
 #!!#
 ####################################################
-namespace: io.cloudslang.base.files
+namespace: io.cloudslang.base.filesystem
 
 operation:
   name: read_from_file

@@ -43,7 +43,7 @@
 #!                      To disable a device from booting, the boot index of the device should be a negative value
 #!                    - Default: '0'
 #! @input uuid: uuid of the image to boot from - Example: 'b67f9da0-4a89-4588-b0f5-bf4d1940174'
-#! @input source_type: the source type of the volume - Valid: '', 'image', 'snapshot' or 'volume' - Default: ''
+#! @input source_type: optional - the source type of the volume - Valid: '', 'image', 'snapshot' or 'volume' - Default: ''
 #! @input delete_on_termination: if True then the boot volume will be deleted when the server is destroyed, If false the
 #!                               boot volume will be deleted when the server is destroyed - Default: True
 #! @input availability_zone: - The availability zone from which to launch the server - Example: 'nova', 'us-east1'
@@ -146,7 +146,9 @@ flow:
     - flavor_ref: '42'
     - boot_index: '0'
     - uuid
-    - source_type: ''
+    - source_type:
+        default: ''
+        required: false
     - delete_on_termination: "True"
     - network_id:
         default: ''
@@ -206,8 +208,7 @@ flow:
             - json_path: "server,name"
             - value: ${server_name}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -221,8 +222,7 @@ flow:
             - json_path: "server,imageRef"
             - value: ${img_ref}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -236,8 +236,7 @@ flow:
             - json_path: "server,flavorRef"
             - value: ${flavor_ref}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -285,8 +284,7 @@ flow:
             - json_path: "server,availability_zone"
             - value: ${availability_zone}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -309,8 +307,7 @@ flow:
             - json_path: "server,key_name"
             - value: ${key_name}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -333,8 +330,7 @@ flow:
             - json_path: "server,adminPass"
             - value: ${admin_pass}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -357,8 +353,7 @@ flow:
             - json_path: "server,user_data"
             - value: ${user_data}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -381,7 +376,7 @@ flow:
             - key: 'metadata'
             - value: ${metadata}
         publish:
-          - body_json: ${json_output}
+          - body_json: ${return_result}
           - return_result
           - error_message
           - return_code
